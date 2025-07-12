@@ -1,0 +1,33 @@
+<ModMetaData>
+	<name>Bigger Gravships (and other Odyssey spaceship related settings)</name>
+	<author>RedMattis</author>
+	<supportedVersions>
+    <li>1.6</li>
+	</supportedVersions>
+  <modIconPath IgnoreIfNoMatchingField="True">BG_ModIcon</modIconPath>
+  <packageId>RedMattis.BiggerGravship</packageId>
+	<modDependencies>
+		<li>
+			<packageId>Ludeon.RimWorld.Odyssey</packageId>
+			<displayName>Odyssey</displayName>
+    </li>
+	</modDependencies>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+		<li>Ludeon.RimWorld.Royalty</li>
+		<li>Ludeon.RimWorld.Ideology</li>
+		<li>Ludeon.RimWorld.Biotech</li>
+    <li>Ludeon.RimWorld.Odyssey</li>
+		<li>brrainz.harmony</li>
+	</loadAfter>
+  <loadBefore>
+  </loadBefore>
+  <incompatibleWith>
+	</incompatibleWith>
+	
+	<description>Configurable Gravship Size.
+Options for changing support, support range, support count, thruster range, chemfuel tank size, and a few other Odyssey grav-ship settings.
+
+Can also be used to make them smaller if you really want to challenge yourself.
+  </description>
+</ModMetaData>

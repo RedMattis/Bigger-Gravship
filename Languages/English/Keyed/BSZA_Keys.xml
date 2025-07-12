@@ -1,0 +1,25 @@
+<LanguageData>
+<BG_GravshipSettings>Gravship Configuration</BG_GravshipSettings>
+
+<BG_ModDefaults>Restore Mod Defaults</BG_ModDefaults>
+<BG_LudeonDefaults>Restore Vanilla Defaults</BG_LudeonDefaults>
+
+<BG_GravEngine_Support>Engine Substructure Support</BG_GravEngine_Support>
+<BG_GravEngine_MaxDistance>Engine Substructure Radius</BG_GravEngine_MaxDistance>
+
+<BG_GravFieldExtender_Support>Grav Field Extender Support</BG_GravFieldExtender_Support>
+<BG_GravFieldExtender_Max>Maximum Grav Field Extenders</BG_GravFieldExtender_Max>
+<BG_GravFieldExtender_MaxDistance>Grav Field Extender Radius</BG_GravFieldExtender_MaxDistance>
+<BG_GravFieldExtender_MaxDistanceFromEngine>Grav Field Extender Max Distance from Engine</BG_GravFieldExtender_MaxDistanceFromEngine>
+
+<BG_ChemFuelTankSize>ChemFuel Tank Capacity</BG_ChemFuelTankSize>
+<BG_LargeChemFuelTankSize>Large ChemFuel Tank Capacity</BG_LargeChemFuelTankSize>
+
+<BG_SmallThrusterRange>Small Thruster Effective Range</BG_SmallThrusterRange>
+<BG_LargeThrusterRange>Large Thruster Effective Range</BG_LargeThrusterRange>
+
+<BG_GravCorePowerCellPower>Gravcore Power Cell Output</BG_GravCorePowerCellPower>
+
+<BG_ApplySettingsNow>Apply Settings Now!</BG_ApplySettingsNow>
+
+</LanguageData>
