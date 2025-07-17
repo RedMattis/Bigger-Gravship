@@ -7,6 +7,7 @@ using UnityEngine;
 using RimWorld;
 using System.Linq;
 using static GravshipSize.SettingsWidgets;
+using HarmonyLib;
 
 namespace GravshipSize
 {
@@ -43,6 +44,8 @@ namespace GravshipSize
         public GravshipSizeSettings(ModContentPack content) : base(content)
         {
             settings = GetSettings<GravshipSettings>();
+            Harmony harmony = new Harmony("RedMattis.GravShipSize");
+            harmony.PatchAll();
         }
 
         private static Vector2 scrollPosition = Vector2.zero;
