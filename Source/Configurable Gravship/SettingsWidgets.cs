@@ -10,8 +10,25 @@ namespace GravshipSize
 {
     public static class SettingsWidgets
     {
-        public static void CreateSettingsSlider(Listing_Standard listingStandard, string labelName, ref float value, float min = 0, float max = 10, Func<float, string> valueFormatter = null)
+        public static bool NearlyEquals(this float a, float b, float tolerance = 0.01f)
         {
+            return Math.Abs(a - b) < tolerance;
+        }
+
+        public static void CreateSettingsSlider(Listing_Standard listingStandard, string labelName, ref float value, ref string buffer, float min = 0, float max = 10, Func<float, string> valueFormatter = null)
+        {
+            static string SetBufferFromValue(float value, Func<float, string> valueFormatter) =>
+                valueFormatter != null ? valueFormatter(value) : value.ToString("F1");
+
+            if (buffer == null)
+            {
+                buffer = SetBufferFromValue(value, valueFormatter);
+            }
+            else if (!float.TryParse(buffer, out float parsedValue) || !NearlyEquals(parsedValue, value))
+            {
+                buffer = SetBufferFromValue(value, valueFormatter);
+            }
+
             // Define a total rect for one row of slider and label
             Rect fullRow = listingStandard.GetRect(Text.LineHeight);
 
@@ -24,17 +41,20 @@ namespace GravshipSize
             Rect sliderRect = new(labelRect.xMax, fullRow.y, sliderWidth, fullRow.height);
             Rect valueRect = new(sliderRect.xMax, fullRow.y, valueWidth, fullRow.height);
 
-            // Draw the label, slider, and value on the respective Rects
             Widgets.Label(labelRect, labelName);
             value = Widgets.HorizontalSlider(sliderRect, value, min, max, true);
-            if (valueFormatter != null)
-            {
-                Widgets.Label(valueRect, valueFormatter(value));
-            }
-            else
-            {
-                Widgets.Label(valueRect, $"{value:F1}");
-            }
+            Widgets.TextFieldNumeric<float>(valueRect, ref value, ref buffer, min: min, max: max);
+
+            
+            //Widgets.HorizontalSlider(sliderRect, ref value, new FloatRange(min, max));
+            //if (valueFormatter != null)
+            //{
+            //    Widgets.Label(valueRect, valueFormatter(value));
+            //}
+            //else
+            //{
+            //    Widgets.Label(valueRect, $"{value:F1}");
+            //}
         }
 
         public static void CreateSettingCheckbox(Listing_Standard listingStandard, string labelName, ref bool value)

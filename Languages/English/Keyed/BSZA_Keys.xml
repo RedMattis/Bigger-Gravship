@@ -20,6 +20,9 @@
 
 <BG_GravCorePowerCellPower>Gravcore Power Cell Output</BG_GravCorePowerCellPower>
 
+<BG_GravShieldRadius>Grav Shield Radius</BG_GravShieldRadius>
+<BG_GravShieldHealth>Grav Shield Health</BG_GravShieldHealth>
+
 <BG_ApplySettingsNow>Apply Settings Now!</BG_ApplySettingsNow>
 
 </LanguageData>
