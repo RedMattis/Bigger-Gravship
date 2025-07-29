@@ -61,9 +61,12 @@ namespace GravshipSize
         private string largeChemFuelTankSizeBuffer;
         private string smallThrusterRangeBuffer;
         private string largeThrusterRangeBuffer;
+        private string gravShieldCountBuffer;
+        private string largeThrusterCountBuffer;
         private string gravCorePowerCellPowerBuffer;
         private string gravShieldRadiusBuffer;
         private string gravShieldHealthBuffer;
+        private string smallThrusterCountBuffer;
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
@@ -109,13 +112,16 @@ namespace GravshipSize
 
             listStd.GapLine();
 
-            CreateSettingsSlider(listStd, "BG_ChemFuelTankSize".Translate(), ref settings.chemFuelTankSize, ref chemFuelTankSizeBuffer, 100, 10000, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_LargeChemFuelTankSize".Translate(), ref settings.largeChemFuelTankSize, ref largeChemFuelTankSizeBuffer, 300, 30000, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_ChemFuelTankSize".Translate(), ref settings.chemFuelTankSize, ref chemFuelTankSizeBuffer, 100, 20000, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_LargeChemFuelTankSize".Translate(), ref settings.largeChemFuelTankSize, ref largeChemFuelTankSizeBuffer, 300, 50000, value => $"{value:F0}");
 
             listStd.GapLine();
 
+            CreateSettingsSlider(listStd, "BG_MaxThrustersSmall".Translate(), ref settings.maxThrustersSmall, ref smallThrusterCountBuffer, 1f, 100f, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_MaxThrustersLarge".Translate(), ref settings.maxThrustersLarge, ref largeThrusterCountBuffer, 1f, 100f, value => $"{value:F0}");
             CreateSettingsSlider(listStd, "BG_SmallThrusterRange".Translate(), ref settings.smallThrusterRange, ref smallThrusterRangeBuffer, 1f, 100f, value => $"{value:F0}");
             CreateSettingsSlider(listStd, "BG_LargeThrusterRange".Translate(), ref settings.largeThrusterRange, ref largeThrusterRangeBuffer, 1f, 300f, value => $"{value:F0}");
+            
 
             listStd.GapLine();
 
@@ -123,8 +129,10 @@ namespace GravshipSize
 
             listStd.GapLine();
 
+            CreateSettingsSlider(listStd, "BG_GravShieldMaxGenerators".Translate(), ref settings.maxShieldGenerators, ref gravShieldCountBuffer, 1f, 100f, value => $"{value:F0}");
             CreateSettingsSlider(listStd, "BG_GravShieldRadius".Translate(), ref settings.gravShieldRadius, ref gravShieldRadiusBuffer, 20f, 60, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_GravShieldHealth".Translate(), ref settings.gravShieldHealth, ref gravShieldHealthBuffer, 200, 5000, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_GravShieldHealth".Translate(), ref settings.gravShieldHealth, ref gravShieldHealthBuffer, 100, 10000, value => $"{value:F0}");
+
 
             listStd.GapLine();
 
@@ -151,9 +159,12 @@ namespace GravshipSize
             settings.largeChemFuelTankSize = GravshipSettings.largeChemFuelTankSize_Default;
             settings.smallThrusterRange = GravshipSettings.smallThrusterRange_Default;
             settings.largeThrusterRange = GravshipSettings.largeThrusterRange_Default;
+            settings.maxThrustersSmall = GravshipSettings.maxThrustersSmall_Default;
+            settings.maxThrustersLarge = GravshipSettings.maxThrustersLarge_Default;
             settings.gravCorePowerCellPower = GravshipSettings.gravCorePowerCellPower_Default;
             settings.gravShieldHealth = GravshipSettings.gravShieldHealth_Default;
             settings.gravShieldRadius = GravshipSettings.gravShieldRadius_Default;
+            settings.maxShieldGenerators = GravshipSettings.maxShieldGenerators_Default;
         }
 
         private void SetLudeonDefault()
@@ -168,9 +179,12 @@ namespace GravshipSize
             settings.largeChemFuelTankSize = GravshipSettings.largeChemFuelTankSize_LudeonDefault;
             settings.smallThrusterRange = GravshipSettings.smallThrusterRange_LudeonDefault;
             settings.largeThrusterRange = GravshipSettings.largeThrusterRange_LudeonDefault;
+            settings.maxThrustersSmall = GravshipSettings.maxThrustersSmall_LudeonDefault;
+            settings.maxThrustersLarge = GravshipSettings.maxThrustersLarge_LudeonDefault;
             settings.gravCorePowerCellPower = GravshipSettings.gravCorePowerCellPower_LudeonDefault;
             settings.gravShieldHealth = GravshipSettings.gravShieldHealth_LudeonDefault;
             settings.gravShieldRadius = GravshipSettings.gravShieldRadius_LudeonDefault;
+            settings.maxShieldGenerators = GravshipSettings.maxShieldGenerators_LudeonDefault;
         }
 
         public static void ApplySettingsNow()
@@ -181,24 +195,47 @@ namespace GravshipSize
             engine.statBases.Where(x => x.stat == StatDefOf.SubstructureSupport).FirstOrDefault().value = settings.gravEngineSupport;
             //engine.SetStatBaseValue(StatDefOf.SubstructureSupport, settings.gravEngineSupport);
 
-            CompProperties_SubstructureFootprint substructureFootprintEngine = engine.GetCompProperties<CompProperties_SubstructureFootprint>();
-            if (substructureFootprintEngine != null)
+            // Engine
             {
-                substructureFootprintEngine.radius = settings.gravEngineMaxRadius;
+                CompProperties_SubstructureFootprint substructureFootprintEngine = engine.GetCompProperties<CompProperties_SubstructureFootprint>();
+                if (substructureFootprintEngine != null)
+                {
+                    substructureFootprintEngine.radius = settings.gravEngineMaxRadius;
+                }
             }
 
-
-            CompProperties_GravshipFacility gravshipFacility = extender.GetCompProperties<CompProperties_GravshipFacility>();
-            if (gravshipFacility != null)
+            // Extender
             {
-                gravshipFacility.maxSimultaneous = (int)settings.gravExtenderMax;
-                gravshipFacility.statOffsets.Where(x => x.stat == StatDefOf.SubstructureSupport).FirstOrDefault().value = settings.gravExtenderSupport;
-                gravshipFacility.maxDistance = settings.gravEngineMaxRadius;
+                CompProperties_GravshipFacility gravshipFacility = extender.GetCompProperties<CompProperties_GravshipFacility>();
+                if (gravshipFacility != null)
+                {
+                    gravshipFacility.maxSimultaneous = (int)settings.gravExtenderMax;
+                    gravshipFacility.statOffsets.Where(x => x.stat == StatDefOf.SubstructureSupport).FirstOrDefault().value = settings.gravExtenderSupport;
+                    gravshipFacility.maxDistance = settings.gravEngineMaxRadius;
+                }
+                CompProperties_SubstructureFootprint substructureFootprint = extender.GetCompProperties<CompProperties_SubstructureFootprint>();
+                if (substructureFootprint != null)
+                {
+                    substructureFootprint.radius = settings.gravExtenderMaxRadius;
+                }
             }
-            CompProperties_SubstructureFootprint substructureFootprint = extender.GetCompProperties<CompProperties_SubstructureFootprint>();
-            if (substructureFootprint != null)
+
+            ThingDef gravExtenderWall = DefDatabase<ThingDef>.GetNamedSilentFail("GravExtenderWall");
+            if (gravExtenderWall != null)
             {
-                substructureFootprint.radius = settings.gravExtenderMaxRadius;
+                CompProperties_GravshipFacility gravshipFacility = gravExtenderWall.GetCompProperties<CompProperties_GravshipFacility>();
+                if (gravshipFacility != null)
+                {
+                    gravshipFacility.maxSimultaneous = (int)settings.gravExtenderMax;
+                    gravshipFacility.statOffsets.Where(x => x.stat == StatDefOf.SubstructureSupport).FirstOrDefault().value = settings.gravExtenderSupport;
+                    gravshipFacility.maxDistance = settings.gravEngineMaxRadius;
+                }
+
+                CompProperties_SubstructureFootprint compProperties_SubstructureFootprint = gravExtenderWall.GetCompProperties<CompProperties_SubstructureFootprint>();
+                if (compProperties_SubstructureFootprint != null)
+                {
+                    compProperties_SubstructureFootprint.radius = settings.gravExtenderMaxRadius;
+                }
             }
 
             var chemTank = GSDefOfs.ChemfuelTank;
@@ -248,6 +285,30 @@ namespace GravshipSize
                     compProperties_ProjectileInterceptor.radius = settings.gravShieldRadius;
                     compProperties_ProjectileInterceptor.hitPoints = (int)settings.gravShieldHealth;
                 }
+                var gravshipFacilityShield = gravShield.GetCompProperties<CompProperties_GravshipFacility>();
+                if (gravshipFacilityShield != null)
+                {
+                    gravshipFacilityShield.maxSimultaneous = (int)settings.maxShieldGenerators;
+                }
+            }
+
+            var smallThrusters = DefDatabase<ThingDef>.GetNamed("SmallThruster");
+            if (smallThrusters != null)
+            {
+                CompProperties_GravshipFacility gravshipFacilitySmall = smallThrusters.GetCompProperties<CompProperties_GravshipFacility>();
+                if (gravshipFacilitySmall != null)
+                {
+                    gravshipFacilitySmall.maxSimultaneous = (int)settings.maxThrustersSmall;
+                }
+            }
+            var largeThrusters = DefDatabase<ThingDef>.GetNamed("LargeThruster");
+            if (largeThrusters != null)
+            {
+                CompProperties_GravshipFacility gravshipFacilityLarge = largeThrusters.GetCompProperties<CompProperties_GravshipFacility>();
+                if (gravshipFacilityLarge != null)
+                {
+                    gravshipFacilityLarge.maxSimultaneous = (int)settings.maxThrustersLarge;
+                }
             }
         }
 
@@ -273,7 +334,9 @@ namespace GravshipSize
         public float gravCorePowerCellPower = gravCorePowerCellPower_Default;
         public float gravShieldRadius = gravShieldRadius_Default;
         public float gravShieldHealth = gravShieldHealth_Default;
-
+        public float maxThrustersSmall = maxThrustersSmall_Default;
+        public float maxThrustersLarge = maxThrustersLarge_Default;
+        public float maxShieldGenerators = maxShieldGenerators_Default;
 
         // Default values
         public const float gravEngineSupport_Default = 500;
@@ -288,7 +351,10 @@ namespace GravshipSize
         public const float largeThrusterRange_Default = 16;
         public const float gravCorePowerCellPower_Default = 1200;
         public const float gravShieldRadius_Default = 24.9f;
-        public const float gravShieldHealth_Default = 500;
+        public const float gravShieldHealth_Default = 1000;
+        public const float maxThrustersSmall_Default = 4;
+        public const float maxThrustersLarge_Default = 10;
+        public const float maxShieldGenerators_Default = 4;
 
         // Ludeon defaults
         public const float gravEngineSupport_LudeonDefault = 500;
@@ -304,6 +370,9 @@ namespace GravshipSize
         public const float gravCorePowerCellPower_LudeonDefault = 1200;
         public const float gravShieldRadius_LudeonDefault = 24.9f;
         public const float gravShieldHealth_LudeonDefault = 500;
+        public const float maxThrustersSmall_LudeonDefault = 4;
+        public const float maxThrustersLarge_LudeonDefault = 6;
+        public const float maxShieldGenerators_LudeonDefault = 2;
 
         public override void ExposeData()
         {
@@ -318,9 +387,12 @@ namespace GravshipSize
             Scribe_Values.Look(ref largeChemFuelTankSize, "BG_largeChemFuelTankSize", largeChemFuelTankSize_Default);
             Scribe_Values.Look(ref smallThrusterRange, "BG_smallThrusterRange", smallThrusterRange_Default);
             Scribe_Values.Look(ref largeThrusterRange, "BG_largeThrusterRange", largeThrusterRange_Default);
+            Scribe_Values.Look(ref maxThrustersSmall, "BG_maxThrustersSmall", maxThrustersSmall_Default);
+            Scribe_Values.Look(ref maxThrustersLarge, "BG_maxThrustersLarge", maxThrustersLarge_Default);
             Scribe_Values.Look(ref gravCorePowerCellPower, "BG_gravCorePowerCellPower", gravCorePowerCellPower_Default);
             Scribe_Values.Look(ref gravShieldRadius, "BG_gravShieldRadius", gravShieldRadius_Default);
             Scribe_Values.Look(ref gravShieldHealth, "BG_gravShieldHealth", gravShieldHealth_Default);
+            Scribe_Values.Look(ref maxShieldGenerators, "BG_maxShieldGenerators", maxShieldGenerators_Default);
         }
     }
 }
