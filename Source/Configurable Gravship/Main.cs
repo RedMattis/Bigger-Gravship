@@ -26,6 +26,7 @@ namespace GravshipSize
     public class DefEditGC : GameComponent
     {
         public DefEditGC(Game game) { }
+
         public override void LoadedGame()
         {
             GravshipSizeSettings.ApplySettingsNow();
@@ -103,12 +104,12 @@ namespace GravshipSize
 
             // Settings
             CreateSettingsSlider(listStd, "BG_GravEngine_Support".Translate(), ref settings.gravEngineSupport, ref gravEngineSupportBuffer, 250, 5000, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_GravEngine_MaxDistance".Translate(), ref settings.gravEngineMaxRadius, ref gravEngineMaxRadiusBuffer, 1f, 56, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_GravEngine_MaxDistance".Translate(), ref settings.gravEngineMaxRadius, ref gravEngineMaxRadiusBuffer, 1f, 100, value => $"{value:F0}");
 
             CreateSettingsSlider(listStd, "BG_GravFieldExtender_Support".Translate(), ref settings.gravExtenderSupport, ref gravExtenderSupportBuffer, 100, 5000, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_GravFieldExtender_Max".Translate(), ref settings.gravExtenderMax, ref gravExtenderMaxBuffer, 1f, 42f, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_GravFieldExtender_MaxDistance".Translate(), ref settings.gravExtenderMaxRadius, ref gravExtenderMaxRadiusBuffer, 1f, 56, value => $"{value:F0}");
-            CreateSettingsSlider(listStd, "BG_GravFieldExtender_MaxDistanceFromEngine".Translate(), ref settings.gravExtenderMaxDistanceFromEngine, ref gravExtenderMaxDistanceFromEngineBuffer, 1f, 56, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_GravFieldExtender_Max".Translate(), ref settings.gravExtenderMax, ref gravExtenderMaxBuffer, 1f, 100, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_GravFieldExtender_MaxDistance".Translate(), ref settings.gravExtenderMaxRadius, ref gravExtenderMaxRadiusBuffer, 1f, 100, value => $"{value:F0}");
+            CreateSettingsSlider(listStd, "BG_GravFieldExtender_MaxDistanceFromEngine".Translate(), ref settings.gravExtenderMaxDistanceFromEngine, ref gravExtenderMaxDistanceFromEngineBuffer, 1f, 100, value => $"{value:F0}");
 
             listStd.GapLine();
 
