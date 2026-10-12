@@ -44,17 +44,6 @@ namespace GravshipSize
             Widgets.Label(labelRect, labelName);
             value = Widgets.HorizontalSlider(sliderRect, value, min, max, true);
             Widgets.TextFieldNumeric<float>(valueRect, ref value, ref buffer, min: min, max: max);
-
-            
-            //Widgets.HorizontalSlider(sliderRect, ref value, new FloatRange(min, max));
-            //if (valueFormatter != null)
-            //{
-            //    Widgets.Label(valueRect, valueFormatter(value));
-            //}
-            //else
-            //{
-            //    Widgets.Label(valueRect, $"{value:F1}");
-            //}
         }
 
         public static void CreateSettingCheckbox(Listing_Standard listingStandard, string labelName, ref bool value)

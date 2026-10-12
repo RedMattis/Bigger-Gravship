@@ -134,7 +134,6 @@ namespace GravshipSize
             CreateSettingsSlider(listStd, "BG_GravShieldRadius".Translate(), ref settings.gravShieldRadius, ref gravShieldRadiusBuffer, 20f, 60, value => $"{value:F0}");
             CreateSettingsSlider(listStd, "BG_GravShieldHealth".Translate(), ref settings.gravShieldHealth, ref gravShieldHealthBuffer, 100, 10000, value => $"{value:F0}");
 
-
             listStd.GapLine();
 
             if (listStd.ButtonText("BG_ApplySettingsNow".Translate()))
